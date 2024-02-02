@@ -1,0 +1,13 @@
+{% extends 'compras/base.html' %}
+{% block content %}
+    <div class="d-flex align-items-center mb-1">
+        <h1 class="d-inline-block mr-3 mb-0"><strong>Proveedores</strong></h1>
+        <a href="{% url 'crear_proveedor' %}" class="btn btn-secondary mr-3"><i class="fas fa-plus"></i> Crear</a>
+        <a href="{% url 'importar_proveedores' %}" class="btn btn-secondary mr-3"><i class="fas fa-file-import"></i>
+            Importar</a>
+        <a href="{% url 'exportar_proveedores' %}" class="btn btn-secondary mr-3"><i class="fas fa-file-export"></i>
+            Exportar</a>
+    </div>
+    {% include 'compras/proveedores/buscador.html' %}
+    {% include 'compras/proveedores/proveedores.html' %}
+{% endblock %}

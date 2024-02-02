@@ -1,0 +1,149 @@
+{% extends 'ventas/base.html' %}
+{% load crispy_forms_tags %}
+{% block extrahead %}
+    {{ form.media }}
+{% endblock %}
+{% block content %}
+    <div class="d-flex align-items-center ml-4">
+        <h1 class="d-inline-block mr-3">
+            <strong>Venta</strong>
+            <small class="text-muted">Nueva</small>
+        </h1>
+        <div>
+            <a href="{% url 'ventas' %}" class="btn btn-secondary mr-3"><i class="fas fa-list"></i> Listado</a>
+        </div>
+    </div>
+    <div class="container-fluid px-2 py-2">
+        <div class="col-xl">
+            <div class="row flex-fill ">
+                <div class="col">
+                    {% if page_obj and clientes %}
+                        <div class="card mt-3" style="border-radius: 25px; box-shadow: 5px 10px lightgray;">
+                            <div class="card-header bg-dark" style="border-radius: 25px 25px 0 0"></div>
+                            <div class="card-body mt-2 px-3 pt-2 pb-2">
+                                <form id="form_check" method="post" action={% url 'crear_venta' %}>
+                                    {% csrf_token %}
+                                    <div class="form-group row">
+                                        <div class="inline-block">
+                                            <div class="col-sm-1">
+                                                <label class="col-form-label col-sm-1 text-nowrap"
+                                                       for="clientes_select"><strong>Cliente</strong></label>
+                                            </div>
+                                        </div>
+                                        <div class="inline-block">
+                                            <div class="col-sm-2">
+                                                <select class="form-control" name="clientes_select" id="clientes_select"
+                                                        style="width: 200px; ; overflow:hidden">
+                                                    {% if clientes %}
+                                                        {% for cliente in clientes %}
+                                                            <option value="{{ cliente.pk }}">{{ cliente.nombre }}</option>
+                                                        {% endfor %}
+                                                    {% endif %}
+                                                </select>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-xl pt-3">
+                                        <table class="table table-striped" style="text-align:center;">
+                                            <thead>
+                                            <tr>
+                                                <th scope="col"></th>
+                                                <th scope="col">Nombre</th>
+                                                <th scope="col">Imágen</th>
+                                                <th scope="col">Precio</th>
+                                                <th scope="col">Cantidad</th>
+                                            </tr>
+                                            </thead>
+                                            <tbody>
+                                            {% for producto in page_obj %}
+                                                <tr>
+                                                    <td>
+                                                        <label for="checked"></label>
+                                                        <input type="checkbox" id="checked" name="checked"
+                                                               value="{{ producto.pk }}">
+                                                    </td>
+                                                    <td>{{ producto.pk }}</td>
+                                                    <td>
+                                                        <img src="{{ producto.imagen.url }}" alt="miniatura" height="50"
+                                                             width="50">
+                                                    </td>
+                                                    <td>{{ producto.precio_venta }} €</td>
+                                                    <td>
+                                                        <label for="cantidad"></label>
+                                                        <input type="number" id="cantidad" name="cantidad"
+                                                               style="width: 50px" value="1"
+                                                               min="1"
+                                                               max={{ producto.cantidad_disponible }}>
+                                                    </td>
+                                                </tr>
+                                            {% endfor %}
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                    <div class="row justify-content-left mb-2 ">
+                                        <div class="row justify-content-left ml-4 mb-2 mt-4 ">
+                                            <input type="submit" id="enviar" class="btn btn-primary mr-2"
+                                                   value="Realizar pedido">
+                                            <a class="btn btn-danger" href="{% url 'ventas' %}">Cancelar</a>
+                                        </div>
+                                    </div>
+                                </form>
+                            </div>
+                            {% if page_obj.paginator.num_pages > 0 %}
+                                <div class="card-footer text-right px-3 py-2" style="border-radius: 0 0 25px 25px">
+                                    <div class="pagination">
+                                    <span class="step-links">
+                                {% if page_obj.has_previous %}
+                                    <a href="?page=1 ">&laquo; Primera</a>
+                                    <a href="?page={{ page_obj.previous_page_number }} ">anterior</a>
+                                {% endif %}
+                                        <span class="current">
+                                    Página {{ page_obj.number }} de {{ page_obj.paginator.num_pages }}.
+                                    </span>
+                                        {% if page_obj.has_next %}
+                                            <a href="?page={{ page_obj.next_page_number }}">siguiente</a>
+                                            <a href="?page={{ page_obj.paginator.num_pages }}">última &raquo;</a>
+                                        {% endif %}
+                                    </span>
+                                    </div>
+                                </div>
+                            {% endif %}
+                        </div>
+                    {% else %}
+                        <div class="text-center mt-5">
+                            <h3 class="text-secondary"><strong>No se encontraron clientes o no quedan productos en
+                                stock</strong>
+                            </h3>
+                        </div>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </div>
+    <script type="text/javascript">
+        $(document).ready(function () {
+            $('#enviar').click(function () {
+                const arr = [];
+                $('#form_check input[type=checkbox]').each(function () {
+                    if (this.checked) {
+                        arr.push($(this).val(), $(this).closest('tr').find("input[name='cantidad']").val());
+                    }
+                });
+                if (arr.length === 0) {
+                    alert('Debes seleccionar al menos una opción.');
+                } else {
+                    const clientes_select = document.getElementById("clientes_select");
+                    const cliente = clientes_select.options[clientes_select.selectedIndex].value;
+                    $.ajax({
+                        type: 'POST',
+                        data: {'arr': arr, 'cliente': cliente},
+                        success: function () {
+                            window.location.href = '/ventas';
+                        }
+                    });
+                }
+                return false;
+            });
+        });
+    </script>
+{% endblock %}

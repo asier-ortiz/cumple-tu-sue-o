@@ -1,0 +1,45 @@
+{% extends 'inventario/base.html' %}
+{% block content %}
+    <div class="d-flex align-items-center ml-4">
+        <h1 class="d-inline-block mr-3">
+            <strong>Productos</strong>
+            <small class="text-muted">Importar</small>
+        </h1>
+        <div>
+            <a href="{% url 'productos' %}" class="btn btn-secondary mr-3"><i class="fas fa-list"></i> Listado</a>
+        </div>
+    </div>
+    <div class="container-fluid px-2 py-2">
+        <div class="col-xl">
+            <div class="row flex-fill ">
+                <div class="col">
+                    <div class="card mt-3" style="border-radius: 25px; box-shadow: 5px 10px lightgray;">
+                        <div class="card-header bg-dark" style="border-radius: 25px 25px 0 0"></div>
+                        <div class="card-body mt-2 ml-1 px-3 pt-2 pb-0">
+                            <form method="POST" enctype="multipart/form-data"> {% csrf_token %}
+                                <p><input type="file" name="file"></p>
+                                <p>Seleccione un archivo CSV o Excel para importar.</p>
+                                <p>{{ order }}</p>
+                                <div class="row justify-content-left mb-2 ">
+                                    <div class="row justify-content-left ml-4 mb-2 mt-4 ">
+                                        <button class="btn btn-primary mr-2" type="submit">Cargar
+                                            fichero
+                                        </button>
+                                        <a href="{% url 'productos' %}" class="btn btn-danger">Cancelar</a>
+                                    </div>
+                                </div>
+                            </form>
+                            {% if messages %}
+                                {% for message in messages %}
+                                    <div>
+                                        <p class="text-danger"><strong>{{ message|safe }}*</strong></p>
+                                    </div>
+                                {% endfor %}
+                            {% endif %}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}

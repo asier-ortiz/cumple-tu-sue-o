@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+    <title>Title</title>
+    <style type="text/css">
+        body {
+            font-weight: 200;
+            font-size: 14px;
+        }
+
+        .header {
+            font-size: 20px;
+            font-weight: 100;
+            text-align: center;
+            color: #007cae;
+        }
+
+        .title {
+            font-size: 22px;
+            font-weight: 100;
+            padding: 10px 20px 0 20px;
+        }
+
+        .title span {
+            color: #007cae;
+        }
+
+        .details {
+            padding: 10px 20px 0 20px;
+            text-align: left !important;
+        }
+
+        .hrItem {
+            border: none;
+            height: 1px;
+            color: #333;
+            background-color: #fff;
+        }
+
+        th {
+            background-color: lightgrey;
+        }
+
+        table {
+            border: 1px solid black;
+            text-align: center;
+            height: 40px;
+        }
+
+        .tableDatosCliente {
+            border: 1px solid black;
+            text-align: left;
+        }
+    </style>
+</head>
+<body>
+<div class='wrapper'>
+    <div class='header'>
+        <img src="/media/company_logo.png" height="150px" alt="logo">
+        <p class='title'>Pedido # {{ pedido.pk }}  </p>
+    </div>
+    <div>
+        <div class='details'>
+            <table class="tableDatosCliente">
+                <tr>
+                    <td><strong>Cliente:</strong> {{ pedido.cliente.nombre }}</td>
+                    <td><strong>Fecha:</strong> {{ pedido.fecha|date:"d-m-Y" }} / {{ pedido.fecha|time:"H:i" }}</td>
+                </tr>
+            </table>
+            <hr class='hrItem'/>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col">
+            <table>
+                <thead>
+                <tr>
+                    <th>Producto</th>
+                    <th>Cantidad pedida</th>
+                    <th>Precio por unidad</th>
+                    <th>Impuestos</th>
+                    <th>Total</th>
+                </tr>
+                </thead>
+                <tbody>
+                {% for linea in pedido.lineas %}
+                    <tr>
+                        <td>{{ linea.0 }}</td>
+                        <td>{{ linea.1 }}</td>
+                        <td>{{ linea.2 }} €</td>
+                        <td>{{ linea.3 }} %</td>
+                        <td>{{ linea.4 }} €</td>
+                    </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+        </div>
+        <hr class='hrItem'/>
+    </div>
+    <div class="row">
+        <div class="col">
+            <table>
+                <thead>
+                <tr>
+                    <th COLSPAN="1">SUBTOTAL</th>
+                    <th COLSPAN="1">IVA</th>
+                    <th COLSPAN="3">TOTAL</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr>
+                    <td colspan="1">{{ pedido.calcular_subotal }} €</td>
+                    <td colspan="1">{{ pedido.calcular_iva }} €</td>
+                    <td colspan="3">{{ pedido.calcular_total }} €</td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+</body>
+</html>

@@ -1,0 +1,3 @@
+﻿Nombre,Apellidos,Email,Telefono,Departamento,Responsable,Dni,Sexo,Estado civil,Fecha nacimiento,Nombre usuario,Contraseña,Fecha contratacion,Activo
+Daniel,Tamargo,daniel@test.com,666 77 77 77,Comercial,,727272F,Hombre,Casado,1993-05-10,Daniel,12345Abcde,2020-05-09,True
+Ander,Zugasti,ander@test.com,666 88 88 88,RRHH,72727272A,727272G,Hombre,Soltero,1994-07-19,Ander,12345Abcde,2020-05-09,True

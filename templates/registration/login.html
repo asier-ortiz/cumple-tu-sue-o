@@ -1,0 +1,30 @@
+<!doctype html>
+<html lang="es">
+<head>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
+          integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <title>Cumple tu sueño</title>
+    {% load crispy_forms_tags %}
+    {% load crispy_forms_filters %}
+</head>
+<body style="background-color: whitesmoke">
+<div class="container">
+    <div class="row justify-content-center">
+        <div class="col-8 col-md-6 col-lg-4">
+            <div id="login" class="text-center">
+                <div class="mb-5 pb-4 pt-3">
+                    <img class="img-fluid my-5" src="/media/logo.png" alt="logo"/>
+                    <h1><strong class="text-muted">Cumple tu sueño</strong></h1>
+                </div>
+                <form method="post">
+                    {% csrf_token %}
+                    <input type="hidden" name="next" value="{{ next }}">
+                    {{ form|crispy }}
+                    <button type="submit" class="btn btn-primary btn-block mt-4 mb-5">Iniciar sesión</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+</html>

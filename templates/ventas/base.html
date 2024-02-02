@@ -1,0 +1,22 @@
+{% extends 'layouts/base.html' %}
+{% block sidebar %}
+    <nav class="navbar navbar-expand navbar-dark bg-dark flex-md-column flex-row align-items-start py-2">
+        <div class="collapse navbar-collapse ">
+            <ul class="flex-md-column flex-row navbar-nav w-100 justify-content-between">
+                <li class="nav-item">
+                    <a class="nav-link pl-0 text-nowrap" href="{% url 'ventas' %}"><i class="fa fa-list"></i> <span
+                            class="font-weight-bold">Ventas</span></a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link pl-0 text-nowrap" href="{% url 'clientes' %}"><i class="fa fa-users"></i> <span
+                            class="font-weight-bold">Clientes</span></a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link pl-0 text-nowrap" href="{% url 'ventas_graficas' %}"><i
+                            class="fa fa-chart-pie"></i> <span
+                            class="font-weight-bold">Gráficas</span></a>
+                </li>
+            </ul>
+        </div>
+    </nav>
+{% endblock %}

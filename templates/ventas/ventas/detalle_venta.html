@@ -1,0 +1,78 @@
+{% extends 'ventas/base.html' %}
+{% block content %}
+    <div class="d-flex align-items-center ml-4">
+        <h1 class="d-inline-block mr-3">
+            <strong>Venta</strong>
+            <small class="text-muted">Detalle</small>
+        </h1>
+        <div>
+            <a href="{% url 'ventas' %}" class="btn btn-secondary mr-3"><i class="fas fa-list"></i> Listado</a>
+        </div>
+    </div>
+    <div class="container mt-5 py-2 " style="border:2px solid #cecece;">
+        <div class="row">
+            <div class="col">
+                <h3>Número pedido: {{ pedido.pk }} </h3>
+            </div>
+            <div class="col-auto">
+                <a href=" {% url 'generar_factura' pedido.pk %}    "
+                   class="btn btn-primary mr-1">Generar factura</a>
+            </div>
+        </div>
+        <div class="row justify-content-left py-md-4">
+            <div class="col">
+                <p><strong>Cliente:</strong> {{ pedido.cliente.nombre }}</p>
+            </div>
+            <div class="col">
+                <p><strong>Fecha:</strong> {{ pedido.fecha|date:"d-m-Y" }} / {{ pedido.fecha|time:"H:i" }}</p>
+            </div>
+        </div>
+        <div class="row justify-content-center">
+            <div class="col">
+                <table class="table table-striped">
+                    <thead>
+                    <tr class="text-lg-center">
+                        <th scope="col">Producto</th>
+                        <th scope="col">Cantidad pedida</th>
+                        <th scope="col">Precio por unidad</th>
+                        <th scope="col">Impuestos</th>
+                        <th scope="col">Total</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    {% for linea in pedido.lineas %}
+                        <tr class="text-lg-center">
+                            <th scope="row">{{ linea.0 }}</th>
+                            <td>{{ linea.1 }} </td>
+                            <td>{{ linea.2 }} €</td>
+                            <td>{{ linea.3 }} %</td>
+                            <td>{{ linea.4 }} €</td>
+                        </tr>
+                    {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        <hr/>
+        <div class="container">
+            <div class="row justify-content-end">
+                <div class="col-2 align-self-end">
+                    <p class=text-right>Total:</p>
+                </div>
+                <div class="col-2 align-self-end">
+                    <p class="text-right"><strong>{{ pedido.calcular_total }}€</strong></p>
+                </div>
+            </div>
+        </div>
+        <div class="container">
+            <div class="row justify-content-end">
+                <div class="col-2 align-self-end">
+                    <p class=text-right>Subtotal:</p>
+                </div>
+                <div class="col-2 align-self-end">
+                    <p class="text-right"><strong>{{ pedido.calcular_subotal }}€</strong></p>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}

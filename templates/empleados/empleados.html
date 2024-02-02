@@ -1,0 +1,84 @@
+{% if page_obj %}
+    <div class="card mt-4" style="border-radius: 25px; box-shadow: 5px 10px lightgray;">
+        <div class="card-header bg-dark text-white px-3 py-2 position-relative"
+             style="border-radius: 25px 25px 0 0"></div>
+        <div class="container-fluid px-2 py-2">
+            <div class="col-xl">
+                <div class="row justify-content-center">
+                    {% for empleado in page_obj %}
+                        <div class="card m-3" style="width: 15rem;">
+                            {% if empleado.activo %}
+                                <div class="card-header bg-success text-white px-3 py-2 position-relative">Activo</div>
+                            {% else %}
+                                <div class="card-header bg-warning text-white px-3 py-2 position-relative">Inactivo
+                                </div>
+                            {% endif %}
+                            {% if empleado.fotografia %}
+                                <div style="text-align: center">
+                                    <img class="card-img-top" src=" {{ empleado.fotografia.url }} " alt="Card image cap"
+                                         style="padding: 10px ; border-radius: 50%; height: 175px; width: 175px">
+                                </div>
+                            {% else %}
+                                <div style="text-align: center">
+                                    <img class="card-img-top" src="/media/user.png" alt="Card image cap"
+                                         style="padding: 10px; border-radius: 50%; height: 175px; width: 175px;">
+                                </div>
+                            {% endif %}
+                            <div class="card-header">
+                                <div class="row justify-content-center">
+                                    <p><strong>{{ empleado.nombre }} {{ empleado.apellidos }}</strong></p>
+                                </div>
+                                <div class="row justify-content-center">
+                                    <p> {{ empleado.departamento }}</p>
+                                </div>
+                            </div>
+                            <div class="card-footer">
+                                <div class="row justify-content-center">
+                                    <div class="m-1" style="display: inline-block">
+                                        <a href="{% url 'modificar_empleado' empleado.dni %}"
+                                           class="btn btn-primary ml-md-1 mt-1 mt-md-0">
+                                            <div class="text-nowrap"><i class="fas fa-eye"></i> Ver</div>
+                                        </a>
+                                    </div>
+                                    <div class="m-1" style="display: inline-block">
+                                        {% if empleado != empleado_logeado %}
+                                            <a href="{% url 'borrar_empleado' empleado.dni %}"
+                                               class="btn btn-danger ml-md-1 mt-1 mt-md-0"
+                                               onclick="return confirm('¿Estás seguro de querer eliminar a este empleado?');">
+                                                <div class="text-nowrap"><i class="fas fa-trash-alt"></i> Eliminar</div>
+                                            </a>
+                                        {% endif %}
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+        {% if page_obj.paginator.num_pages > 0 %}
+            <div class="card-footer text-right px-3 py-2" style="border-radius: 0 0 25px 25px">
+                <div class="pagination">
+                    <span class="step-links">
+                {% if page_obj.has_previous %}
+                    <a href="?page=1 ">&laquo; Primera</a>
+                    <a href="?page={{ page_obj.previous_page_number }} ">anterior</a>
+                {% endif %}
+                        <span class="current">
+                    Página {{ page_obj.number }} de {{ page_obj.paginator.num_pages }}.
+                        </span>
+                        {% if page_obj.has_next %}
+                            <a href="?page={{ page_obj.next_page_number }}">siguiente</a>
+                            <a href="?page={{ page_obj.paginator.num_pages }}">última &raquo;</a>
+                        {% endif %}
+                    </span>
+                </div>
+            </div>
+        {% endif %}
+    </div>
+{% else %}
+    <div class="text-center mt-5">
+        <h3 class="text-secondary"><strong>No se encontraron empleados</strong>
+        </h3>
+    </div>
+{% endif %}

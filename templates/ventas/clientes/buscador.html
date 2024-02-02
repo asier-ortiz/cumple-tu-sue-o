@@ -1,0 +1,54 @@
+<form action=" {% url 'buscar_cliente' %}" method="POST">{% csrf_token %}
+    <div class="card mt-4" style="border-radius: 25px; box-shadow: 5px 10px lightgray;">
+        <div class="card-header bg-dark text-white px-3 py-2 position-relative" style="border-radius: 25px 25px 0 0">
+            Buscador
+        </div>
+        <div class="card-body px-3 pt-2 pb-0">
+            <div class="form-group row"><label class="col-form-label col-sm-2"
+                                               for="nif">Nif</label>
+                <div class="col-sm-10"><input type="text" id="nif" name="nif" value="{{ request.POST.nif }}"
+                                              class="form-control"/>
+                </div>
+            </div>
+            <div class="form-group row"><label class="col-form-label col-sm-2"
+                                               for="nombre">Nombre</label>
+                <div class="col-sm-10"><input type="text" id="nombre" name="nombre" value="{{ request.POST.nombre }}"
+                                              class="form-control"/>
+                </div>
+            </div>
+            <div class="form-group row"><label class="col-form-label col-sm-2"
+                                               for="ciudad">Ciudad</label>
+                <div class="col-sm-10"><input type="text" id="ciudad" name="ciudad"
+                                              value="{{ request.POST.ciudad }}"
+                                              class="form-control"/></div>
+            </div>
+            <div class="form-group row"><label class="col-form-label col-sm-2"
+                                               for="provincia">Provincia</label>
+                <div class="col-sm-10"><input type="text" id="provincia" name="provincia"
+                                              value="{{ request.POST.provincia }}"
+                                              class="form-control"/></div>
+            </div>
+            <div class="form-group row"><label class="col-form-label col-sm-2"
+                                               for="email">Email</label>
+                <div class="col-sm-10"><input type="text" id="email" name="email"
+                                              value="{{ request.POST.email }}"
+                                              class="form-control"/></div>
+            </div>
+            <div class="form-group row"><label class="col-form-label col-sm-2"
+                                               for="telefono">Teléfono</label>
+                <div class="col-sm-10"><input type="text" id="telefono" name="telefono"
+                                              value="{{ request.POST.telefono }}"
+                                              class="form-control"/></div>
+            </div>
+        </div>
+        <div class="card-footer text-right px-3 py-2" style="border-radius: 0 0 25px 25px">
+            <button type="submit" name="search" value="Search" class="btn btn-sm btn-secondary"><i
+                    class="fas fa-search"></i>
+                Buscar
+            </button>
+            <a href="{% url 'clientes' %}" class="btn btn-sm btn-outline-secondary"><i
+                    class="fas fa-trash-alt"></i> Limpiar
+            </a>
+        </div>
+    </div>
+</form>
